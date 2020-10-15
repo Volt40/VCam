@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 /**
- * VCam.java is a simple all-in-one computer vision class designed to work on OnBot java. VCam is
+ * VCam.java is a simple light-weight all-in-one computer vision class designed to work on OnBot java. VCam is
  * completely open source and created by Team 14470. To learn how to use VCam, please see the github
  * page: https://github.com/Volt40/VCam
  *
