@@ -256,13 +256,13 @@ public class VCam {
     public static class VColor {
 
         // Static colors.
-        public static VColor RED = new VColor(255, 0, 0);
-        public static VColor GREEN = new VColor(0, 255, 0);
-        public static VColor BLUE = new VColor(0, 0, 255);
-        public static VColor YELLOW = new VColor(255, 255, 0);
-        public static VColor ORANGE = new VColor(255, 128, 0);
-        public static VColor PURPLE = new VColor(128, 0, 255);
-        public static VColor PINK = new VColor(255, 0, 255);
+        public static final VColor RED = new VColor(255, 0, 0);
+        public static final VColor GREEN = new VColor(0, 255, 0);
+        public static final VColor BLUE = new VColor(0, 0, 255);
+        public static final VColor YELLOW = new VColor(255, 255, 0);
+        public static final VColor ORANGE = new VColor(255, 128, 0);
+        public static final VColor PURPLE = new VColor(128, 0, 255);
+        public static final VColor PINK = new VColor(255, 0, 255);
 
         // RGB value of this color.
         private int rgb;
