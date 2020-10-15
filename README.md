@@ -26,12 +26,12 @@ VCam.VColor[][] image = vcam.getLatestImage();
 ```
 Because OnBot Java does not have access to the java.awt.Color class, VCam uses an embedded color class named VCam.VColor that acts in a similar way.
 
-VCam also has an embedded class called VCam.CVUtils that can be use to perform basic computer vision functions.
+VCam also has an embedded class called VCam.CVUtils that can be used to perform basic computer vision functions.
 To see how similar a pixel is to a specific color, use:
 ```java
 double similarity = VCam.CVUtils.getSimilarity(image[y][x], VCam.VColor.ORANGE);
 ```
-You can use a Gaussian Blur to blur a pixel using the preset kernels:
+You can use a Gaussian Blur to blur a pixel using a kernel:
 ```java
 VCam.VColor blurredPixel = VCam.VCUtils.getAverage(image, x, y, VCam.CVUtils.KERNEL_7x7);
 ```
