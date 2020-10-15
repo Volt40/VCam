@@ -1,4 +1,5 @@
 # VCam
+A simple, light-weight computer vision class designed for use in OnBot java in the First Tech Challenge.
 ## Setup
 Simply upload the VCam.java file onto OnBot java (or paste it into the teamcode directory if you are working in Android Studios).
 ## Usage
