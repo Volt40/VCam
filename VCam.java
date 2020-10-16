@@ -18,18 +18,14 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCharacteri
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraFrame;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.internal.camera.RenumberedCameraFrame;
-import org.firstinspires.ftc.robotcore.internal.camera.libuvc.api.UvcApiCameraFrame;
-import org.firstinspires.ftc.robotcore.internal.camera.libuvc.nativeobject.UvcFrame;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
-import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 /**
- * VCam.java is a simple light-weight all-in-one computer vision class designed to work on OnBot java. VCam is
- * completely open source and created by Team 14470. To learn how to use VCam, please see the github
- * page: https://github.com/Volt40/VCam
+ * VCam.java is a simple light-weight all-in-one computer vision class designed to work on OnBot java.
+ * VCam is completely open source and created by Team 14470. To learn how to use VCam, please see the
+ * github page: https://github.com/Volt40/VCam
  *
  * @author Michael Baljet, FTC Team 14470
  * @version 1.0.0
@@ -40,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class VCam {
 
     // Seconds until the camera times out.
-    private static final int TIMEOUT_SECONDS = 10;
+    private static final int TIMEOUT_SECONDS = 9999;
 
     // Used for debugging.
     private Telemetry telemetry;
@@ -78,6 +74,11 @@ public class VCam {
         init(name, hwMap);
     }
 
+    /**
+     * Inits the camera.
+     * @param name Name of the webcam.
+     * @param hwMap Hardware map.
+     */
     private void init(String name, HardwareMap hwMap) {
         latestImage = null;
         try {
@@ -90,6 +91,14 @@ public class VCam {
             if (debuggingEnabled)
                 telemetry.addLine("Error with webcam.");
         }
+    }
+
+    /**
+     * Returns true if an image is available.
+     * @return true if an image is available.
+     */
+    public boolean imageAvailable() {
+        return latestImage != null;
     }
 
     /**
@@ -326,33 +335,13 @@ public class VCam {
 
         @Override
         public void onNewFrame(CameraCaptureSession session, CameraCaptureRequest request, CameraFrame cameraFrame) {
-            /* If you are inspecting this method, I would suggest you turn away now. All the following code
-             * is needed because something is broken in FIRST's source code. I have spent many hours creating this
-             * and so far this is the only fix.
-             */
-            try {
-                // Don't think too hard about this :)
-                RenumberedCameraFrame renumberedCameraFrame = (RenumberedCameraFrame) cameraFrame;
-                Field innerFrameField = RenumberedCameraFrame.class.getDeclaredField("innerFrame");
-                innerFrameField.setAccessible(true);
-                CameraFrame innerFrame = (CameraFrame) innerFrameField.get(renumberedCameraFrame);
-                UvcApiCameraFrame uvcApiCameraFrame = (UvcApiCameraFrame) innerFrame;
-                Field uvcFrameField = UvcApiCameraFrame.class.getDeclaredField("uvcFrame");
-                uvcFrameField.setAccessible(true);
-                UvcFrame uvcFrame = (UvcFrame) uvcFrameField.get(uvcApiCameraFrame);
-                Field useNativeFormatConversion = UvcFrame.class.getDeclaredField("useNativeFormatConversion");
-                useNativeFormatConversion.setAccessible(true);
-                useNativeFormatConversion.setBoolean(uvcFrame, false);
-                Bitmap bitmap = Bitmap.createBitmap(cameraFrame.getSize().getWidth(), cameraFrame.getSize().getHeight(), Bitmap.Config.ARGB_8888);
-                uvcFrame.copyToBitmap(bitmap);
-                VColor[][] colorMap = new VColor[bitmap.getHeight()][bitmap.getWidth()];
-                for (int i = 0; i < colorMap.length; i++)
-                    for (int j = 0; j < colorMap[i].length; j++)
-                        colorMap[i][j] = new VColor(bitmap.getPixel(j, i));
-                latestImage = colorMap;
-            } catch(Exception e) {
-                // Just ignore, most likely caused because the cameraFrame is null.
-            }
+            Bitmap bitmap = Bitmap.createBitmap(cameraFrame.getSize().getWidth(), cameraFrame.getSize().getHeight(), Bitmap.Config.ARGB_8888);
+            cameraFrame.copyToBitmap(bitmap);
+            VColor[][] colorMap = new VColor[bitmap.getHeight()][bitmap.getWidth()];
+            for (int i = 0; i < colorMap.length; i++)
+                for (int j = 0; j < colorMap[i].length; j++)
+                    colorMap[i][j] = new VColor(-bitmap.getPixel(j, i));
+            latestImage = colorMap;
         }
 
     }
