@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class VCam {
 
     // Seconds until the camera times out.
-    private static final int TIMEOUT_SECONDS = 9999;
+    private static final int TIMEOUT_SECONDS = 9999; // ;)
 
     // Used for debugging.
     private Telemetry telemetry;
