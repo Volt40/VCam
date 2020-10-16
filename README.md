@@ -24,6 +24,8 @@ Once the camera has begun streaming, you can start processing images. To get the
 ```java
 VCam.VColor[][] image = vcam.getLatestImage();
 ```
+Usually the camera needs a few seconds to open up and start streaming images. Before calling ```vcam.getLatestImage()``` make sure an image is available by calling ```vcam.imageAvailable()```.
+
 Because OnBot Java does not have access to the java.awt.Color class, VCam uses an embedded color class named VCam.VColor that acts in a similar way.
 
 VCam also has an embedded class called VCam.CVUtils that can be used to perform basic computer vision functions.
